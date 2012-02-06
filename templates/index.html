@@ -1,0 +1,30 @@
+{% extends framename %}
+
+{% block maincontent %}
+
+<div id="view_window">
+    {% for project in projects.all %}
+        <h3>{{project.name}}</h3>
+            <table class="tasktable">
+                <tr><th>Title</th><th>Description</th><th>Creator</th><th>Owners</th><th>Deadline</th><th>Priority</th><th>Status</th><th>Inputs</th><th>Outputs</th></tr>
+                {% for task in project.tasks.all %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>{{ task.creator.username }}</td>
+                        <td>{{ task.owners.all }}</td>
+                        <td>{{ task.deadline }}</td>
+                        <td>{{ task.priority }}</td>
+                        <td>{{ task.status }}</td>
+                        <td>{{ task.inputs.all }}</td>
+                        <td>{{ task.outputs.all }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+    {% endfor %}
+</div>
+
+<div id="rightmenu">
+</div>
+
+{% endblock %}
