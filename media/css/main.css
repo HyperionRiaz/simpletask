@@ -1,0 +1,14 @@
+#rightmenu {
+    width:300px;
+    border: 1px solid black;
+    float: right;
+    position: relative;
+}
+
+#view_window {
+    display: inline-block;
+}
+
+.tasktable td {
+    border: 1px solid black;
+}
