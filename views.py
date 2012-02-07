@@ -11,6 +11,8 @@ default_context = Context({"framename":framename, "blockname":blockname})
 # Create your views here.
 
 def index(request):
+    if request.user.is_anonymous():
+        return HttpResponseRedirect("/auth/login")
     c=Context({})
     c.update(default_context)
     user = request.user

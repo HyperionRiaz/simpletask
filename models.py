@@ -38,7 +38,13 @@ class Task(models.Model):
     creator = models.ForeignKey("auth.User", related_name="tasks_created")
     owners = models.ManyToManyField("auth.User", related_name="tasks_owned")
     deadline = models.DateField()
-    priority = models.IntegerField()
+    priority = models.IntegerField(choices=((1,"Emergency"),
+            (2,"Very urgent"),
+            (3,"Urgent"),
+            (4,"Normal"),
+            (5,"Maybe"),
+            )
+        )
     status = models.CharField(max_length=20)
     inputs = models.ManyToManyField(DocPage, related_name = "used_by", blank=True, null=True)
     outputs = models.ManyToManyField(DocPage, related_name = "produced_by", blank=True, null=True)
