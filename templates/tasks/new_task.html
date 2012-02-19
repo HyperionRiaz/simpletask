@@ -1,0 +1,8 @@
+<div>
+    <h4>Adding new task</h4>
+    <form id="taskupdateform" enctype="multipart/form-data" method="post" action="/simpletask/new_task/">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" name="savetask" value="Save" />
+    </form>
+</div>

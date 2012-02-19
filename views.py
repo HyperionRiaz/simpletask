@@ -1,48 +1,26 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
-from simpletask.models import Task, Project, DocPage
+from simpletask.models import Task, Project
 from simpletask.forms import TaskForm
-from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
-framename = "cs_website/index.html"
-blockname = "maincontent"
 
-default_context = Context({"framename":framename, "blockname":blockname})
 # Create your views here.
 
 def index(request):
     if request.user.is_anonymous():
         return HttpResponseRedirect("/auth/login")
+    try:
+        notice = request.REQUEST["notice"]
+    except:
+        notice=False
     c=Context({})
-    c.update(default_context)
     user = request.user
-    projects = Project.objects.filter(group__in=user.groups.all()).distinct()
+    projects = user.projects.all()
     c["projects"]=projects
-    t = loader.get_template("simpletask/index.html")
+    c["notice"]=notice
+    t = loader.get_template("simpletask/simpletask_frame.html")
     return HttpResponse(t.render(c))
-
-def updatetaskdiv(request):
-    taskid=request.GET["taskid"]
-    t=loader.get_template("simpletask/tasks/updatetaskdiv.html")
-    c=RequestContext(request)
-    if taskid!="new":
-        task = Task.objects.get(pk=taskid)
-        form=TaskForm(instance=task)
-    else:
-        form = TaskForm()
-    c["taskid"]=taskid
-    c["form"]=form
-    return HttpResponse(t.render(c))
-
-def edit_task(request):
-    taskid=request.POST["taskid"]
-    if taskid!="new":
-        task=Task.objects.get(pk=taskid)
-        form=TaskForm(request.POST, instance=task)
-    else:
-        form=TaskForm(request.POST)
-    form.save()
-    return HttpResponseRedirect("/simpletask/")
 
 def task_list(request):
     return HttpResponse("This is the task_list")
@@ -50,11 +28,47 @@ def task_list(request):
 def view_task(request):
     return HttpResponse("This is a single task")
 
-def add_task(request):
-    template = loader("simpletask/task/add.html")
-    context = default_context.copy()
-    form = TaskForm()
+def new_task(request):
+    if request.method == 'POST': # If the form has been submitted...
+        form = TaskForm(request.POST) # A form bound to the POST data
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/simpletask")
+    else:
+        form = TaskForm() # An unbound form
+    t=loader.get_template('simpletask/tasks/new_task.html')
+    c = RequestContext(request)
+    c['form'] = form
+    return HttpResponse(t.render(c))
 
-    return HttpResponse("Here you can add a task")
+def edit_task(request):
+    if request.method == 'POST':
+        task = Task.objects.get(pk=request.POST["pk"])
+        form=TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/simpletask")
+    else:
+        task = Task.objects.get(pk=request.GET["pk"])
+        form=TaskForm(instance=task)
+
+    t=loader.get_template("simpletask/tasks/updatetaskdiv.html")
+    c=RequestContext(request)
+    c["form"]=form
+    c["task"]=task
+
+    return HttpResponse(t.render(c))
+
+def delete_task(request):
+    task = Task.objects.get(pk=request.GET["pk"])
+    task.delete()
+    return HttpResponse('Deleted')
+    
+@login_required
+def hierarchy(request):
+    projects = request.user.projects.all()
+    t = loader.get_template("simpletask/views/user_hierarchy.html")
+    c = Context({"projects":projects})
+    return HttpResponse(t.render(c))
 
 

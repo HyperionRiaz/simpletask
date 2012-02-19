@@ -1,0 +1,99 @@
+{% extends "cs_website/index.html" %}
+
+{% block maincontent %}
+
+<link href="/media/simpletask/css/main.css" rel="stylesheet" type="text/css">
+
+{% if notice %}
+    <div class="notice">
+        {{notice|safe}}
+    </div>
+{% endif %}
+
+<table class="layout-table" width="100%">
+<tr>
+
+<td with="20%">
+    <div class="horizontal_menu_item">
+        <a href="/simpletask/">Table View</a>
+    </div>
+    <div class="horizontal_menu_item">
+        <a href="/simpletask/hierarchy">Hierachy view</a>
+    </div>
+            
+{% block leftmenu %}
+
+<div id="left-menu">
+
+</div>
+{% endblock leftmenu %}
+</td>
+
+<td width="80%">
+{% block displaywindow %}
+
+
+<div id="display-window">
+
+        
+    {% for project in projects %}
+        <div class="projectdiv" id="Project{{project.id}}">
+            <h3 class="white_on_blue">{{project.name}}</h3>
+            {% if project.wikipage %}<a href="{{project.wikipage}}">WikiPage</a><br/>{% endif %}
+            <div id="addtask{{project.id}}">
+                <a href="#"><img src="/media/simpletask/images/addtask.jpeg"/></a>
+            </div>
+            <table class="tasktable">
+                <tr><th>Name</th><th>Notes</th><th>Assigned to</th><th>Deadline</th><th>Priority</th><th>Status</th></tr>
+                {% for task in project.tasks.all %}
+                    <tr id="taskrow{{task.id}}">
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.notes|truncatewords:5 }}</td>
+                        <td>{{ task.assigned_to }}</td>
+                        <td>{{ task.deadline }}</td>
+                        <td>{{ task.priority }}</td>
+                        <td>{{ task.status }}</td>
+<!--                        <td>{{ task.inputs.all|default:"none" }}</td>
+                        <td>{{ task.outputs.all|default:"none" }}</td>  -->
+                        <td><div id="updatetask{{task.id}}"><a href="#"><img src="/media/simpletask/images/updatetask.jpeg"/></a></div></td>
+                        <td><div id="deletetask{{task.id}}"><a href="#"><img src="/media/simpletask/images/delete.jpeg"/></a></div></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
+
+</div>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            {% for project in projects %}
+            $("#addtask{{project.id}} a").click(function(){
+                $.get("/simpletask/new_task", {project: "{{project.id}}"}, function(result){
+                    $("#left-menu").html(result);
+                    });
+                });
+                {% for task in project.tasks.all %}
+                    $("#updatetask{{ task.id }} a").click(function(){
+                        $.get("/simpletask/edit_task", {pk: "{{ task.pk }}"}, function(result){
+                            $("#left-menu").html(result);
+                            });
+                        });
+                    $("#deletetask{{ task.id }} a").click(function(){
+                        $.get("/simpletask/delete_task", {pk: "{{ task.pk }}"}, function(result){
+                            $("#left-menu").html(result);
+                            });
+                        });
+                {% endfor %}
+            {% endfor %}
+        });
+    </script>
+{% endblock displaywindow %}
+</td>
+</tr>
+</table>
+
+{% endblock maincontent %}

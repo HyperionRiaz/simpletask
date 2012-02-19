@@ -11,9 +11,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^$', 'simpletask.views.index'),
-    (r'^task_list/', "simpletask.views.task_list"),
+    (r'^hierarchy/', "simpletask.views.hierarchy"),
     (r'^edit_task/', "simpletask.views.edit_task"),
-    (r'^add_task/', "simpletask.views.add_task"),
-    (r'^updatetaskdiv', "simpletask.views.updatetaskdiv"),
+    (r'^new_task/', "simpletask.views.new_task"),
+    (r'^delete_task', "simpletask.views.delete_task"),
 
 )

@@ -1,7 +1,7 @@
 from django.contrib import admin 
-from simpletask.models import Task, Project, DocPage
+from simpletask.models import Task, Project, Tags
 
-admin.site.register(Task)
 admin.site.register(Project)
-admin.site.register(DocPage)
+admin.site.register(Task)
+admin.site.register(Tags)
 

@@ -1,8 +1,8 @@
 <div>
-    <h4>Editing task: {{task.title}}</h4>
+    <h4>Editing task: {{task.name}}</h4>
     <form id="taskupdateform" enctype="multipart/form-data" method="post" action="/simpletask/edit_task/">
         {% csrf_token %}
-        <input type="hidden" name="taskid" value="{{taskid}}" />
+        <input type="hidden" name="pk" value="{{task.id}}" />
         {{ form.as_p }}
         <input type="submit" name="savetask" value="Save" />
     </form>

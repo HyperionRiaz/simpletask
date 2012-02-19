@@ -1,0 +1,28 @@
+<div id="hierarchy_task_div_{{task.pk}}" class="hierarchy_task_div" >
+    <h4>{{task.name}}</h4>
+
+    {% if task.wikipage %}<a href="{{task.wikipage}}">WikiPage</a><br/>{% endif %}
+    <p>
+    {{task.notes}}
+    </p>
+    <div id="updatetask{{task.id}}"><a href="#"><img src="/media/simpletask/images/updatetask.jpeg"/></a></div>
+    <div id="deletetask{{task.id}}"><a href="#"><img src="/media/simpletask/images/delete.jpeg"/></a></div>
+
+    <script type="text/javascript">
+                    $("#updatetask{{ task.id }} a").click(function(){
+                        $.get("/simpletask/edit_task", {pk: "{{ task.pk }}"}, function(result){
+                            $("#left-menu").html(result);
+                            });
+                        });
+                    $("#deletetask{{ task.id }} a").click(function(){
+                        $.get("/simpletask/delete_task", {pk: "{{ task.pk }}"}, function(result){
+                            $("#left-menu").html(result);
+                            });
+                        });
+    </script>
+    <div id="task{{task.id}}children">
+    {% for child in task.children.all %}
+        {{child.hierarchy_div|safe}}
+    {%  endfor %}
+    </div>
+</div>

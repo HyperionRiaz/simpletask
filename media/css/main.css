@@ -1,14 +1,13 @@
-#rightmenu {
+#left-menu {
     width:300px;
-    border: 1px solid black;
-    float: right;
+    float: left;
     position: relative;
     padding: 5px;
     background: #6B7DD8;
 }
 
-#view_window {
-    display: inline-block;
+#display_window a {
+    color: darkblue;
 }
 
 .tasktable td {
@@ -17,7 +16,20 @@
 }
 
 .projectdiv {
-    margin: 5px;
     background: #6B7DD8;
+    padding: 5px;
+    border: 3px solid darkblue;
+    }
+
+.layout-table td {
+    vertical-align: top;
+    padding: 5px;
+    background: #6B7DD8;
+    }
+
+.hierarchy_task_div {
+    margin: 5px 5px 5px 20px;
+    border: 1.5px solid darkblue;
+    background: #7EABFF;
     padding: 5px;
     }
