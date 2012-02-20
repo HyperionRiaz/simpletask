@@ -13,7 +13,7 @@
 <table class="layout-table" width="100%">
 <tr>
 
-<td with="20%">
+<td with="25%">
     <div class="horizontal_menu_item">
         <a href="/simpletask/">Table View</a>
     </div>
@@ -24,12 +24,14 @@
 {% block leftmenu %}
 
 <div id="left-menu">
-
+{% if left_menu_template %}
+{% include left_menu_template %}
+{% endif %}
 </div>
 {% endblock leftmenu %}
 </td>
 
-<td width="80%">
+<td width="75%">
 {% block displaywindow %}
 
 
