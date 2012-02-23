@@ -21,7 +21,6 @@ class Project(models.Model):
         return self.tasks.filter(parents__isnull=True).all()
         
     def hierarchy_div(self):
-        print "Project:", self.name
         t = loader.get_template("simpletask/projects/project_hierarchy.html")
         c = Context({"project":self})
         return t.render(c)
@@ -76,8 +75,8 @@ class Task(models.Model):
             return self.name
 
     def hierarchy_div(self):
-        print "Task hierarchy", self.name
-        print "children:", self.children.all()
+        #print "Task hierarchy", self.name
+        #print "children:", self.children.all()
         t = loader.get_template("simpletask/tasks/task_hierarchy.html")
         c = Context({"task":self})
         return t.render(c)
