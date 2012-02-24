@@ -18,7 +18,7 @@
 .projectdiv {
     background: #6B7DD8;
     padding: 5px;
-    border: 3px solid darkblue;
+    border: 3px solid #3D4973;
     }
 
 .layout-table td {
@@ -29,7 +29,7 @@
 
 .hierarchy_task_div {
     margin: 5px 5px 5px 20px;
-    border: 1.5px solid darkblue;
+    border: 1.5px solid #3D4973;
     background: #7EABFF;
     padding: 5px;
     }
