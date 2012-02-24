@@ -51,7 +51,6 @@ def new_task(request):
             pass
         initial_data["assigned_to"]=request.user.pk
         initial_data["opened_by"]=request.user.pk
-        print initial_data
         form = TaskForm(initial=initial_data) # An unbound form
     else:
         form = TaskForm()
