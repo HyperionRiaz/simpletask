@@ -1,17 +1,17 @@
 <div id="hierarchy_project_div_{{project.pk}}" class="hierarchy_project_div projectdiv" >
     <h3 class="white_on_blue">{{project.name}}</h3>
     {% if project.wikipage %}<a href="{{project.wikipage}}">WikiPage</a><br/>{% endif %}
-    <div id="addtask">
+    <div id="addtask{{project.pk}}">
         <a href="#"><img src="/media/simpletask/images/addtask.jpeg"/></a>
     </div>
     <script type="text/javascript">
-            $("#addtask a").click(function(){
-                $.get("/simpletask/new_task", {project: "project.id"}, function(result){
-                $("#left-menu").html(result);
+            $("#addtask{{project.pk}} a").click(function(){
+                $.get("/simpletask/new_task", {project: "{{project.pk}}"}, function(result){
+                    $("#left-menu").html(result);
+                    });
                 });
-            });
     </script>
-    <div id="project{{project.id}}tasks">
+    <div id="project{{project.pk}}tasks">
     {% for task in project.root_tasks %}
         {{task.hierarchy_div|safe}}
     {%  endfor %}
