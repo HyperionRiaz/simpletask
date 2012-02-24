@@ -59,17 +59,17 @@ class Task(models.Model):
     opened_by = models.ForeignKey("auth.User", related_name = "tasks_created")
     members = models.ManyToManyField("auth.User", related_name = "all_task")
     assigned_to = models.ForeignKey("auth.User", related_name = "assigned_tasks")
-    deadline = models.DateField()
+    deadline = models.DateField(null=True)
     priority = models.IntegerField()
-    estimated_time = models.DecimalField(max_digits=15, decimal_places=2)
+    estimated_time = models.DecimalField(max_digits=15, decimal_places=2, null=True)
     actual_time = models.DecimalField(max_digits=15, decimal_places=2, null=True)
     tags = models.ManyToManyField(Tags, related_name="tasks", blank=True)
     status = models.CharField(max_length=20)
     parents = models.ManyToManyField("self", symmetrical=False, related_name = "children", blank=True)
     last_edited = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
-    wikipage = models.URLField()
-    repetition_score = models.IntegerField()
+    wikipage = models.URLField(null=True)
+    repetition_score = models.IntegerField(null=True)
 
     def __unicode__(self):
             return self.name
