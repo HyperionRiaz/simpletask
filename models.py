@@ -65,7 +65,7 @@ class Task(models.Model):
     actual_time = models.DecimalField(max_digits=15, decimal_places=2, null=True)
     tags = models.ManyToManyField(Tags, related_name="tasks", blank=True)
     status = models.CharField(max_length=20)
-    children = models.ManyToManyField("self", symmetrical=False, related_name = "parents", blank=True)
+    parents = models.ManyToManyField("self", symmetrical=False, related_name = "children", blank=True)
     last_edited = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
     wikipage = models.URLField()

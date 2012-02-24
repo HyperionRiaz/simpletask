@@ -3,6 +3,7 @@ from django.template import Context, loader, RequestContext
 from simpletask.models import Task, Project
 from simpletask.forms import TaskForm
 from django.contrib.auth.decorators import login_required
+import datetime
 
 
 # Create your views here.
@@ -19,7 +20,7 @@ def index(request):
     projects = user.projects.all()
     c["projects"]=projects
     c["notice"]=notice
-    t = loader.get_template("simpletask/simpletask_frame.html")
+    t = loader.get_template("simpletask/views/user_table.html")
     return HttpResponse(t.render(c))
 
 def task_list(request):
@@ -34,8 +35,26 @@ def new_task(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/simpletask")
+    elif request.method == "GET":
+        initial_data = {}
+        try:
+            project_pk = request.GET["project"]
+            p = Project.objects.get(pk=project_pk)
+            initial_data["project"] = project_pk
+            initial_data["members"] = p.members.values_list("pk", flat=True)
+        except:
+            pass
+        try:
+            parent_id = request.GET["parent"]
+            initial_data["parents"] = [parent_id]
+        except:
+            pass
+        initial_data["assigned_to"]=request.user.pk
+        initial_data["opened_by"]=request.user.pk
+        print initial_data
+        form = TaskForm(initial=initial_data) # An unbound form
     else:
-        form = TaskForm() # An unbound form
+        form = TaskForm()
     t=loader.get_template('simpletask/tasks/new_task.html')
     c = RequestContext(request)
     c['form'] = form
@@ -52,7 +71,7 @@ def edit_task(request):
         task = Task.objects.get(pk=request.GET["pk"])
         form=TaskForm(instance=task)
 
-    t=loader.get_template("simpletask/tasks/updatetaskdiv.html")
+    t=loader.get_template("simpletask/tasks/edit_task_div.html")
     c=RequestContext(request)
     c["form"]=form
     c["task"]=task

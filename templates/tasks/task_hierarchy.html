@@ -33,10 +33,10 @@
                             });
                         });
                     $("#addchildtask{{task.id}} a").click(function(){
-                $.get("/simpletask/new_task", {project: "project.id", task: "task.id"}, function(result){
-                $("#left-menu").html(result);
-                });
-            });
+                        $.get("/simpletask/new_task", {project: "{{task.project.pk}}", parent: "{{task.pk}}"}, function(result){
+                            $("#left-menu").html(result);
+                            });
+                        });
     </script>
     <div id="task{{task.id}}children">
     {% for child in task.children.all %}
