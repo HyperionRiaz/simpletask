@@ -54,7 +54,7 @@ class Tags(models.Model):
         
 class Task(models.Model):
     project = models.ForeignKey(Project, related_name="tasks")
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=40)
     notes = models.TextField(null=True)
     opened_by = models.ForeignKey("auth.User", related_name = "tasks_created")
     members = models.ManyToManyField("auth.User", related_name = "all_task")
