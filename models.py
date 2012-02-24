@@ -51,6 +51,13 @@ class Tags(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class TaskStatus(models.Model):
+    name = models.CharField(max_length=20)
+    description = models.TextField()
+
+    def __unicode__(self):
+        return self.name
         
 class Task(models.Model):
     project = models.ForeignKey(Project, related_name="tasks")
@@ -64,7 +71,7 @@ class Task(models.Model):
     estimated_time = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
     actual_time = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
     tags = models.ManyToManyField(Tags, related_name="tasks", blank=True)
-    status = models.CharField(max_length=20)
+    status = models.ForeignKey(TaskStatus, related_name="tasks")
     parents = models.ManyToManyField("self", symmetrical=False, related_name = "children", blank=True)
     last_edited = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
