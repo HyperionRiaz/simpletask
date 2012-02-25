@@ -1,40 +1,47 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from simpletask.models import Task, Project
-from simpletask.forms import TaskForm
+from simpletask.forms import TaskForm, FilterForm, ViewForm
 from django.contrib.auth.decorators import login_required
 import datetime
 
+# Declare global variables
+
+viewtemplates = {
+    "table":"simpletask/views/user_table.html",
+    "hierarchy":"simpletask/views/user_hierarchy.html"
+    }
 
 # Create your views here.
 
+@login_required
 def index(request):
-    if request.user.is_anonymous():
-        return HttpResponseRedirect("/auth/login")
-    try:
-        notice = request.REQUEST["notice"]
-    except:
-        notice=False
-    c=Context({})
+    c=RequestContext(request)
     user = request.user
     projects = user.projects.all()
     c["projects"]=projects
-    c["notice"]=notice
-    t = loader.get_template("simpletask/views/user_table.html")
+    c["filterform"] = FilterForm(request.user)
+    c["viewform"] = ViewForm()
+    
+    t = loader.get_template("simpletask/simpletask_frame.html")
     return HttpResponse(t.render(c))
 
+@login_required
 def task_list(request):
     return HttpResponse("This is the task_list")
 
+@login_required
 def view_task(request):
     return HttpResponse("This is a single task")
 
+@login_required
 def new_task(request):
     if request.method == 'POST': # If the form has been submitted...
         form = TaskForm(request.POST) # A form bound to the POST data
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/simpletask")
+        
     elif request.method == "GET":
         initial_data = {}
         try:
@@ -59,6 +66,7 @@ def new_task(request):
     c['form'] = form
     return HttpResponse(t.render(c))
 
+@login_required
 def edit_task(request):
     if request.method == 'POST':
         task = Task.objects.get(pk=request.POST["pk"])
@@ -77,6 +85,7 @@ def edit_task(request):
 
     return HttpResponse(t.render(c))
 
+@login_required
 def delete_task(request):
     task = Task.objects.get(pk=request.GET["pk"])
     task.delete()
@@ -86,7 +95,36 @@ def delete_task(request):
 def hierarchy(request):
     projects = request.user.projects.all()
     t = loader.get_template("simpletask/views/user_hierarchy.html")
-    c = Context({"projects":projects})
+    c["filterform"] = FilterForm(request.user)
+    c["viewform"] = ViewForm()
+    c = RequestContext(request,{"projects":projects})
     return HttpResponse(t.render(c))
 
+@login_required
+def display_window(request):
+    #This page must get POST data
+    if request.method != "POST":
+        c=RequestContext(request)
+        user = request.user
+        projects = user.projects.all()
+        c["projects"]=projects
+        c["filterform"] = FilterForm(request.user)
+        c["viewform"] = ViewForm()
+        t = loader.get_template("simpletask/simpletask_frame.html")
+        return HttpResponse(t.render(c))
+    else:
+        #Get arguments
+        filterform = FilterForm(request.user, request.POST)
+        if filterform.is_valid():
+            filter_args = filterform.cleaned_data
+        viewform = ViewForm(request.POST)
+        if viewform.is_valid():
+            view_args = viewform.cleaned_data
 
+        #Get data to be displayed
+        c=RequestContext(request)
+        t=loader.get_template(viewtemplates[view_args["view_class"]])
+        c["projects"] = filter_args["filter_projects"]
+        
+        return HttpResponse(t.render(c))
+        

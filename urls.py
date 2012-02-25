@@ -15,5 +15,6 @@ urlpatterns = patterns('',
     (r'^edit_task/', "simpletask.views.edit_task"),
     (r'^new_task/', "simpletask.views.new_task"),
     (r'^delete_task', "simpletask.views.delete_task"),
+    (r'^display_window/', "simpletask.views.display_window"),
 
 )

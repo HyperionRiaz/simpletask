@@ -14,29 +14,99 @@
 <tr>
 
 <td>
-    <div class="horizontal_menu_item">
+<!--    <div class="horizontal_menu_item">
         <a href="/simpletask/">Table View</a>
     </div>
     <div class="horizontal_menu_item">
         <a href="/simpletask/hierarchy">Hierachy view</a>
     </div>
+    -->
             
 {% block leftmenu %}
 
 <div id="left-menu">
-{% if left_menu_template %}
-{% include left_menu_template %}
-{% endif %}
+
+    <ul class="menu">
+        <li id="datafilter">Filter</li>
+        <li id="viewsettings">Display</li>
+        <li id="interactive" class="active">Edit</li>
+    </ul>
+    <span class="clear"></span>
+    <form id="displayform">
+    {% csrf_token %}
+    <div class="menucontent inactive datafilter">
+        {{filterform.as_p}}
+        <input class="apply" type="image" src="/media/simpletask/images/apply.jpeg" alt="Apply button"/>
+    </div>
+    <div class="menucontent inactive viewsettings">
+        {{viewform.as_p}}
+        <input class="apply" type="image" src="/media/simpletask/images/apply.jpeg" alt="Apply button"/>
+    </div>
+
+    </form>
+
+    <div class="menucontent active interactive ">
+        Click a button on the right to interact with it here.
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("input.apply").click(function(e){
+                e.preventDefault();
+                $.post("/simpletask/display_window/",$("#displayform").serialize(), function(result){
+                    $("#display_window").html(result);
+                    });
+                });
+            $(".menu > li").click(function(e){
+                switch(e.target.id){
+                    case "datafilter":
+                        //change status &amp;amp;amp; style menu
+                        $("#datafilter").addClass("active");
+                        $("#viewsettings").removeClass("active");
+                        $("#interactive").removeClass("active");
+                        //display selected division, hide others
+                        $("div.datafilter").fadeIn();
+                        $("div.viewsettings").css("display", "none");
+                        $("div.interactive").css("display", "none");
+                    break;
+                    case "viewsettings":
+                        //change status &amp;amp;amp; style menu
+                        $("#datafilter").removeClass("active");
+                        $("#viewsettings").addClass("active");
+                        $("#interactive").removeClass("active");
+                        //display selected division, hide others
+                        $("div.viewsettings").fadeIn();
+                        $("div.datafilter").css("display", "none");
+                        $("div.interactive").css("display", "none");
+                    break;
+                    case "interactive":
+                        //change status &amp;amp;amp; style menu
+                        $("#datafilter").removeClass("active");
+                        $("#viewsettings").removeClass("active");
+                        $("#interactive").addClass("active");
+                        //display selected division, hide others
+                        $("div.interactive").fadeIn();
+                        $("div.datafilter").css("display", "none");
+                        $("div.viewsettings").css("display", "none");
+                    break;
+                }
+                //alert(e.target.id);
+                return false;
+            });
+        });
+    </script>
 </div>
 {% endblock leftmenu %}
 </td>
 
 <td width="100%">
+<div id="display_window">
 {% block displaywindow %}
 
-Select a view on the left!
+{% include "simpletask/views/user_table.html" %}
     
 {% endblock displaywindow %}
+</div>
 </td>
 </tr>
 </table>

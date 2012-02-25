@@ -1,14 +1,4 @@
-{% extends "simpletask_frame.html" %}
-
-{% block displaywindow %}
-
-<div id="display_window">
-
-
     {% for project in projects %}
         {{project.hierarchy_div|safe}}
     {% endfor %}
 
-</div>
-
-{% endblock %}

@@ -24,17 +24,17 @@
     <script type="text/javascript">
                     $("#updatetask{{ task.id }} a").click(function(){
                         $.get("/simpletask/edit_task", {pk: "{{ task.pk }}"}, function(result){
-                            $("#left-menu").html(result);
+                            $("div.interactive").html(result);
                             });
                         });
                     $("#deletetask{{ task.id }} a").click(function(){
                         $.get("/simpletask/delete_task", {pk: "{{ task.pk }}"}, function(result){
-                            $("#left-menu").html(result);
+                            $("div.interactive").html(result);
                             });
                         });
                     $("#addchildtask{{task.id}} a").click(function(){
                         $.get("/simpletask/new_task", {project: "{{task.project.pk}}", parent: "{{task.pk}}"}, function(result){
-                            $("#left-menu").html(result);
+                            $("div.interactive").html(result);
                             });
                         });
     </script>

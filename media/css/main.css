@@ -1,7 +1,5 @@
 #left-menu {
     width:20em;
-    float: left;
-    position: relative;
     padding: 5px;
     background: #6B7DD8;
 }
@@ -18,7 +16,7 @@
 .projectdiv {
     background: #6B7DD8;
     padding: 5px;
-    border: 3px solid #3D4973;
+    border: 2px solid #3D4973;
     }
 
 .layout-table td {
@@ -33,3 +31,39 @@
     background: #7EABFF;
     padding: 5px;
     }
+
+.clear{
+    clear: both;
+    height: 0;
+    visibility: hidden;
+    display: block;
+}
+
+.menucontent.inactive {
+    display: none;
+    }
+
+.menucontent.active {
+    display: block;
+    }
+
+#left-menu ul.menu li{
+    float: left;
+    margin-right: 0px;
+}
+#left-menu ul.menu li{
+    font-weight: 700;
+    display: block;
+    padding: 5px 10px 5px 10px;
+    background: #3D4973;
+    border: 1px solid #3D4973;
+    border-width: 1px 1px 1px 1px;
+    position: relative;
+    color: #898989;
+    cursor: pointer;
+}
+#left-menu ul.menu li.active{
+    background: #fff;
+    border-bottom: 0;
+    color: #5f95ef;
+} 

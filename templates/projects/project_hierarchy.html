@@ -7,7 +7,7 @@
     <script type="text/javascript">
             $("#addtask{{project.pk}} a").click(function(){
                 $.get("/simpletask/new_task", {project: "{{project.pk}}"}, function(result){
-                    $("#left-menu").html(result);
+                    $("div.interactive").html(result);
                     });
                 });
     </script>
