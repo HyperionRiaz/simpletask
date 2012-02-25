@@ -17,8 +17,8 @@ class ProjectForm(forms.ModelForm):
         model = models.Project
 
 class FilterForm(forms.Form):
-    filter_projects = forms.ModelMultipleChoiceField(queryset=None)
-    filter_task_status = forms.ModelMultipleChoiceField(queryset=models.TaskStatus.objects.all())
+    filter_projects = forms.ModelMultipleChoiceField(queryset=None, required=False)
+    filter_task_status = forms.ModelMultipleChoiceField(queryset=models.TaskStatus.objects.all(), required=False)
 
     def __init__(self, user, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)

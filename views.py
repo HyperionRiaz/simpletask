@@ -40,7 +40,7 @@ def new_task(request):
         form = TaskForm(request.POST) # A form bound to the POST data
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/simpletask")
+            return HttpResponse("Task saved")
         
     elif request.method == "GET":
         initial_data = {}
@@ -73,7 +73,7 @@ def edit_task(request):
         form=TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/simpletask")
+            return HttpResponse("Changes saved")
     else:
         task = Task.objects.get(pk=request.GET["pk"])
         form=TaskForm(instance=task)

@@ -1,9 +1,20 @@
 <div>
     <h4>Editing task: {{task.name}}</h4>
-    <form id="taskupdateform" enctype="multipart/form-data" method="post" action="/simpletask/edit_task/">
+    <form id="taskupdateform">
         {% csrf_token %}
         <input type="hidden" name="pk" value="{{task.id}}" />
         {{ form.as_p }}
-        <input type="submit" name="savetask" value="Save" />
+        <input class="save" type="image" src="/media/simpletask/images/save.jpeg" alt="Save button"/>
     </form>
+    <script type="text/javascript">
+            $("input.save").click(function(e){
+                e.preventDefault();
+                $.post("/simpletask/edit_task/",$("#taskupdateform").serialize(), function(result){
+                    $("div.interactive").html(result);
+                    });
+                $.post("/simpletask/display_window/",$("#displayform").serialize(), function(result){
+                    $("#display_window").html(result);
+                    });
+                });
+    </script>
 </div>
