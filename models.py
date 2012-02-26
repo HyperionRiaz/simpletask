@@ -4,7 +4,7 @@ from django.template import Context, loader
 # Create your models here.
 
 class Project(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=80)
     manager = models.ForeignKey("auth.User", related_name = "pm_projects")
     deputy_manager = models.ForeignKey("auth.User", related_name = "dpm_projects")
     client = models.ManyToManyField("auth.Group", related_name = "projects")
