@@ -13,6 +13,10 @@
     padding: 2px;
 }
 
+tr.task_row {
+    display: none;
+    }
+
 .projectdiv {
     background: #6B7DD8;
     padding: 5px;
@@ -25,11 +29,12 @@
     background: #6B7DD8;
     }
 
-.hierarchy_task_div {
+.task_div {
     margin: 5px 5px 5px 20px;
     border: 1.5px solid #3D4973;
     background: #7EABFF;
     padding: 5px;
+    display: none;
     }
 
 .clear{

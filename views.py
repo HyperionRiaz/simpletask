@@ -125,6 +125,7 @@ def display_window(request):
         c=RequestContext(request)
         t=loader.get_template(viewtemplates[view_args["view_class"]])
         c["projects"] = filter_args["filter_projects"]
+        c["display_statuses"] = filter_args["filter_task_status"]
         
         return HttpResponse(t.render(c))
         

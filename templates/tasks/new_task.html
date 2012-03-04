@@ -10,10 +10,11 @@
                 e.preventDefault();
                 $.post("/simpletask/new_task/",$("#newtaskform").serialize(), function(result){
                     $("div.interactive").html(result);
-                    });
-                $.post("/simpletask/display_window/",$("#displayform").serialize(), function(result){
+                    $.post("/simpletask/display_window/",$("#displayform").serialize(), function(result){
                     $("#display_window").html(result);
+                        });
                     });
+
                 });
     </script>
 </div>

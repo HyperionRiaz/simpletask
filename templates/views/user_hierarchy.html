@@ -1,3 +1,9 @@
+    <style type="text/css">
+        {% for status in display_statuses %}
+            div.task_div.status_{{status|lower}}{display: block;}
+        {% endfor %}
+    </style>
+    
     {% for project in projects %}
         {{project.hierarchy_div|safe}}
     {% endfor %}

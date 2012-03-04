@@ -11,9 +11,9 @@
                 e.preventDefault();
                 $.post("/simpletask/edit_task/",$("#taskupdateform").serialize(), function(result){
                     $("div.interactive").html(result);
-                    });
-                $.post("/simpletask/display_window/",$("#displayform").serialize(), function(result){
-                    $("#display_window").html(result);
+                    $.post("/simpletask/display_window/",$("#displayform").serialize(), function(result){
+                        $("#display_window").html(result);
+                        });
                     });
                 });
     </script>

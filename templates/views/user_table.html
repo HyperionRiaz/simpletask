@@ -1,4 +1,8 @@
-
+    <style type="text/css">
+        {% for status in display_statuses %}
+            tr.task_row.status_{{status|lower}}{display: table-row;}
+        {% endfor %}
+    </style>
 
 
     {% for project in projects %}
@@ -11,7 +15,7 @@
             <table class="tasktable">
                 <tr><th>Name</th><th>Notes</th><th>Assigned to</th><th>Deadline</th><th>Priority</th><th>Status</th></tr>
                 {% for task in project.tasks.all %}
-                    <tr id="taskrow{{task.id}}">
+                    <tr id="taskrow{{task.id}}" class="task_row status_{{task.status|lower}}">
                         <td>{{ task.name }}</td>
                         <td>{{ task.notes|truncatewords:5 }}</td>
                         <td>{{ task.assigned_to }}</td>

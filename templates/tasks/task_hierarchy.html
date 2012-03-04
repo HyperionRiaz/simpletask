@@ -1,25 +1,16 @@
-<div id="hierarchy_task_div_{{task.pk}}" class="hierarchy_task_div" >
-    <h4>{{task.name}}</h4>
-    <div class ="taskmenu">
+<div id="hierarchy_task_div_{{task.pk}}" class="task_div status_{{task.status|lower}}" >
+    <div class ="taskmenu" style="float: right;">
         <div id="updatetask{{task.id}}" class="horizontal_menu_item"><a href="#"><img src="/media/simpletask/images/updatetask.jpeg"/></a></div>
-        <div id="deletetask{{task.id}}" class="horizontal_menu_item"><a href="#"><img src="/media/simpletask/images/delete.jpeg"/></a></div>
         <div id="addchildtask{{task.id}}" class="horizontal_menu_item"><a href="#"><img src="/media/simpletask/images/addchild.jpeg"/></a></div>
+        <div id="deletetask{{task.id}}" class="horizontal_menu_item"><a href="#"><img src="/media/simpletask/images/delete.jpeg"/></a></div>
     </div>
-    {% if task.wikipage %}<a href="{{task.wikipage}}">WikiPage</a><br/>{% endif %}
+    <b>Name: {{task.name}}</b><br/>
+    <b>By:</b> {{task.opened_by}} <b>To:</b> {{task.assigned_to}} <b>Status:</b> {{task.status}} <b>Priority:</b> {{task.priority}} <b>Deadline:</b> {{task.deadline|default:"None"}}</br>
 
-    <table>
-                        <tr id="taskrow{{task.id}}">
-                        <td>{{ task.assigned_to }}</td>
-                        <td>{{ task.deadline }}</td>
-                        <td>{{ task.priority }}</td>
-                        <td>{{ task.status }}</td>
-<!--                        <td>{{ task.inputs.all|default:"none" }}</td>
-                        <td>{{ task.outputs.all|default:"none" }}</td>  -->
-                    </tr>
-    </table>
-    <p>
+    
+    {% if task.wikipage %}<a href="{{task.wikipage}}">WikiPage</a><br/>{% endif %}
     {{task.notes}}
-    </p>
+
 
     <script type="text/javascript">
                     $("#updatetask{{ task.id }} a").click(function(){
