@@ -76,3 +76,7 @@ tr.task_row {
     border-bottom: 0;
     color: #5f95ef;
 } 
+
+.errorlist {
+	color:red;
+}
