@@ -22,7 +22,11 @@ tr.task_row {
     padding: 5px;
     border: 2px solid #3D4973;
     }
-
+    
+.projectdiv h3 {
+    margin: 0px;
+    }
+    
 .layout-table td {
     vertical-align: top;
     padding: 5px;
