@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
-from simpletask.models import Task, Project
+from simpletask.models import Task, Project, TaskStatus
 from simpletask.forms import TaskForm, FilterForm, ViewForm
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -110,6 +110,7 @@ def display_window(request):
         c["projects"]=projects
         c["filterform"] = FilterForm(request.user)
         c["viewform"] = ViewForm()
+        c["display_statuses"] = TaskStatus.objects.all()
         t = loader.get_template("simpletask/simpletask_frame.html")
         return HttpResponse(t.render(c))
     else:
